@@ -1,17 +1,17 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import { PositionService } from './position/position.service';
+import { TradeService } from './trade/trade.service';
 
 async function bootstrap() {
   const app = await NestFactory.createApplicationContext(AppModule);
 
-  const positionService = app.get(PositionService);
+  const tradeServiceInstance = app.get(TradeService);
 
   console.log('🔄 Worker started...');
 
   while (true) {
     try {
-      await positionService.checkAndLiquidatePositions(); // твоя логіка
+      await tradeServiceInstance.checkAndLiquidatetrades();
     } catch (error) {
       console.error('❌ Error in worker:', error);
     }
