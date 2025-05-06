@@ -27,7 +27,8 @@ export class TradeService {
     if (shouldLiquidate) {
       trade.status = 'liquidated';
       trade.closed_at = new Date();
-      trade.fixed_user_profit = -parseFloat((trade.margin).toFixed(8));
+      const margin = parseFloat(trade.margin.toString());
+      trade.fixed_user_profit = -parseFloat(margin.toFixed(8));
       trade.fixed_company_profit = 0;
       await this.repo.save(trade);
     }
