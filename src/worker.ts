@@ -11,7 +11,7 @@ async function bootstrap() {
 
   while (true) {
     try {
-      await tradeServiceInstance.checkAndLiquidatetrades();
+      await tradeServiceInstance.checkAndCloseTrades();
     } catch (error) {
       console.error('❌ Error in worker:', error);
     }
