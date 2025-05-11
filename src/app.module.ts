@@ -14,7 +14,7 @@ import { UserCurrencyModule } from './user-currency/user-currency.module';
         type: 'postgres',
         url: process.env.DATABASE_URL,
         autoLoadEntities: true,
-        synchronize: true,
+        synchronize: false,
         ssl: true,
         extra: {
           ssl: {
