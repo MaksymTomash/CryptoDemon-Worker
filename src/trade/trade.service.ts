@@ -32,6 +32,7 @@ export class TradeService {
     trade.fixed_company_profit = companyCommission;
     trade.fixed_user_profit = userProfit;
     trade.status = 'closed';
+    trade.closing_price = exitPrice;
     trade.closed_at = new Date();
 
     const usdtBalance = await this.userCurrencyService.getOne(trade.user.firebaseUid, 'USDT');
@@ -42,11 +43,12 @@ export class TradeService {
   }
 
 
-  async liquidateTrade(trade: Trade): Promise<Trade> {
+  async liquidateTrade(trade: Trade, exitPrice: number): Promise<Trade> {
     trade.status = 'liquidated';
     trade.closed_at = new Date();
     trade.fixed_user_profit = -parseFloat((trade.margin).toFixed(8));
     trade.fixed_company_profit = 0;
+    trade.closing_price = exitPrice;
     return await this.repo.save(trade);
   }
   
@@ -85,7 +87,7 @@ export class TradeService {
           (trade.type === 'sell' && currentPrice >= trade.liquidation_price)
         )
       ) {
-        await this.liquidateTrade(trade);
+        await this.liquidateTrade(trade, currentPrice);
         this.logger?.log?.(`Trade ${trade.id} liquidated at ${currentPrice}`);
         continue;
       }
