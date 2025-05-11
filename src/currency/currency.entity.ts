@@ -15,6 +15,6 @@ export class Currency {
   @Column({ type: 'text', nullable: true })
   logo_url: string;
 
-  @OneToMany(() => UserCurrency, (uc: UserCurrency) => uc.currency)
+  @OneToMany(() => UserCurrency, uc => uc.currency)
   userCurrencies: UserCurrency[];
 }

@@ -1,14 +1,14 @@
-import { Entity, ManyToOne, PrimaryGeneratedColumn, Column, Unique } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn } from 'typeorm';
 import { User } from '../users/user.entity';
 import { Currency } from '../currency/currency.entity';
 
-@Entity("UserCurrency")
-@Unique(['user', 'currency'])
+@Entity('UserCurrency')
 export class UserCurrency {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @ManyToOne(() => User, user => user.userCurrencies, { eager: true })
+  @ManyToOne(() => User)
+  @JoinColumn({ name: 'user_id' })
   user: User;
 
   @ManyToOne(() => Currency, currency => currency.userCurrencies, { eager: true })
@@ -16,4 +16,7 @@ export class UserCurrency {
 
   @Column({ type: 'float', default: 0 })
   balance: number;
+
+  @Column({ type: 'float', default: 0 })
+  reserved: number;
 }
