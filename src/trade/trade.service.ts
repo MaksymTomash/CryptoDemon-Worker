@@ -46,7 +46,7 @@ export class TradeService {
   async liquidateTrade(trade: Trade, exitPrice: number): Promise<Trade> {
     trade.status = 'liquidated';
     trade.closed_at = new Date();
-    trade.fixed_user_profit = -parseFloat((trade.margin).toFixed(8));
+    trade.fixed_user_profit = -parseFloat((trade.margin).toString());
     trade.fixed_company_profit = 0;
     trade.closing_price = exitPrice;
     return await this.repo.save(trade);
